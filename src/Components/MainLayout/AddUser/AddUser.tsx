@@ -55,7 +55,6 @@ export default function AddUser() {
   const getUserData = async () => {
     try {
       const res = await axios.get<UserData>(`https://dummyjson.com/users/${reqID}`);
-      console.log(res?.data);
       setUserData(res?.data);
     } catch (error) {
       console.log(error);
@@ -78,15 +77,24 @@ export default function AddUser() {
   }, [reqID]);
 
   useEffect(() => {
-    if (userdata) {
+
+    if (userdata && isAdding !== 0) {
       setValue("firstName", userdata.firstName);
       setValue("lastName", userdata.lastName);
       setValue("email", userdata.email);
       setValue("age", userdata.age);
       setValue("phone", userdata.phone);
       setValue("birthDate", formatDateString(userdata.birthDate));
+    } else {
+
+      setValue("firstName", " ");
+      setValue("lastName", " ");
+      setValue("email", " ");
+      setValue("age", 0); 
+      setValue("phone", 0); 
+      setValue("birthDate", "2024-12-31"); 
     }
-  }, [userdata, setValue]);
+  }, [userdata, isAdding]); 
 
 
   const onUpdate = async (data: UserFormData) => {

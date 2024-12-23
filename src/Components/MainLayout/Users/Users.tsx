@@ -27,16 +27,16 @@ export default function Users() {
   let { changeAddPage , user_ID } = useContext(PageContext);
 
   let navigate = useNavigate();
-  let moveToAddUser = () => {
-    changeAddPage(0);
+  let moveToAddUser = (num) => {
+    changeAddPage(num);
     console.log("from add button")
     navigate("/dashboard/add-user");
   };
 
   let { setID } = useContext(PageContext);
 
-  let movetoUpdateUser = (user) => {
-    changeAddPage(1);
+  let movetoUpdateUser = (user,num) => {
+    changeAddPage(num);
     setID(user.id);
     console.log("from update button")
     navigate("/dashboard/add-user");
@@ -73,7 +73,7 @@ export default function Users() {
         <>
           <div className="d-flex justify-content-between mx-3">
             <h3>Users list</h3>
-            <button className="btn btn-warning" onClick={moveToAddUser}>
+            <button className="btn btn-warning" onClick={()=>moveToAddUser(0)}>
               Add User
             </button>
           </div>
@@ -108,7 +108,7 @@ export default function Users() {
                       <FaRegEdit 
                         size={25}
                         className="text-warning ms-2 me-3 cursor-pointer"
-                        onClick={() => movetoUpdateUser(user)}
+                        onClick={() => movetoUpdateUser(user,1)}
                       />
                       <MdOutlineDelete
                         onClick={() => handleShow(user)}

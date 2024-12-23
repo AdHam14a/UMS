@@ -13,24 +13,15 @@ interface PageContextProviderProps {
 }
 
 interface PageContextType {
-  userData: User | null;
   saveUserData: () => void;
+  userData: User | null;
   changeAddPage: (num: number) => void;
   isAdding: number | null;
   reqID: number;
   setID: (id: number) => void;
 }
 
-const defaultContextValue: PageContextType = {
-  userData: null,
-  saveUserData: () => {},
-  changeAddPage: () => {},
-  isAdding: null,
-  reqID: 0,
-  setID: () => {},
-};
-
-export const PageContext = createContext<PageContextType | null>(defaultContextValue);
+export const PageContext = createContext<PageContextType | null>(null);
 
 export default function PageContextProvider({ children }: PageContextProviderProps) {
   const [userData, setUserData] = useState<User | null>(null);

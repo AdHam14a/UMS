@@ -16,7 +16,7 @@ interface UserData {
 
 export default function SideBar() {
   const [collapsed, setCollapsed] = useState<boolean>(false);
-  const { userData } = useContext(PageContext);
+  const { userData , changeAddPage } = useContext(PageContext);
   const navigate = useNavigate();
   const logout = () => {
     navigate("/login");
@@ -25,8 +25,6 @@ export default function SideBar() {
   const toggle = () => {
     setCollapsed((prev) => !prev);
   };
-
-  const { changeAddPage } = useContext(PageContext); 
 
   const addUsersection = () => {
     changeAddPage(0);
@@ -56,7 +54,7 @@ export default function SideBar() {
           <MenuItem icon={<PiUsersThreeFill />} component={<Link to="users" />}>
             Users
           </MenuItem>
-          <MenuItem onClick={addUsersection} icon={<IoPersonAdd />} component={<Link to="add-user" />}>
+          <MenuItem onClick={()=>addUsersection()} icon={<IoPersonAdd />} component={<Link to="add-user" />}>
             Add User
           </MenuItem>
           <MenuItem icon={<RiProfileFill />} component={<Link to="profile" />}>
