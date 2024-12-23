@@ -1,26 +1,56 @@
 import { jwtDecode } from "jwt-decode";
-import { createContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
-export let PageContext = createContext(null);
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  num: number;
+}
 
-export default function PageContextProvider(props) {
-  let [userData, setUserData] = useState(null);
+interface PageContextProviderProps {
+  children: ReactNode;
+}
 
-  let [isAdding, setIsAdding] = useState(0);
+interface PageContextType {
+  userData: User | null;
+  saveUserData: () => void;
+  changeAddPage: (num: number) => void;
+  isAdding: number | null;
+  reqID: number;
+  setID: (id: number) => void;
+}
 
-  let changeAddPage = (num) => {
+const defaultContextValue: PageContextType = {
+  userData: null,
+  saveUserData: () => {},
+  changeAddPage: () => {},
+  isAdding: null,
+  reqID: 0,
+  setID: () => {},
+};
+
+export const PageContext = createContext<PageContextType | null>(defaultContextValue);
+
+export default function PageContextProvider({ children }: PageContextProviderProps) {
+  const [userData, setUserData] = useState<User | null>(null);
+  const [isAdding, setIsAdding] = useState<number | null>(0);
+  const [reqID, setReqID] = useState<number>(0);
+
+  const changeAddPage = (num: number) => {
     setIsAdding(num);
   };
 
-  let [reqID, setReqID] = useState(0);
-  let setID = (id) => {
+  const setID = (id: number) => {
     setReqID(id);
   };
 
-  let saveUserData = () => {
-    let encoded = localStorage.getItem("userToken");
-    let decoded = jwtDecode(encoded);
-    setUserData(decoded);
+  const saveUserData = () => {
+    const encoded = localStorage.getItem("userToken");
+    if (encoded) {
+      const decoded = jwtDecode<User>(encoded); 
+      setUserData(decoded);
+    }
   };
 
   useEffect(() => {
@@ -33,7 +63,7 @@ export default function PageContextProvider(props) {
     <PageContext.Provider
       value={{ saveUserData, userData, changeAddPage, isAdding, reqID, setID }}
     >
-      {props.children}
+      {children}
     </PageContext.Provider>
   );
 }

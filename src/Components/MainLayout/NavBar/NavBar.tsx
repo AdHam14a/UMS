@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { PageContext } from "../../context/PageContext";
 
 export default function NavBar() {
-  let { userData } = useContext(PageContext);
+  const { userData }:any = useContext(PageContext);
 
   return (
     <>

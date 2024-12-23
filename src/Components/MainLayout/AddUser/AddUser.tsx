@@ -1,24 +1,46 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { data, useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { PageContext } from "../../context/PageContext";
-import { jwtDecode } from "jwt-decode";
+
+
+interface UserData {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  age: number;
+  phone: number;
+  birthDate: string;
+  image?: string;
+}
+
+interface UserFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  age: number;
+  phone: number;
+  birthDate: string;
+}
 
 export default function AddUser() {
-  let navigate = useNavigate();
-  let { isAdding, reqID } = useContext(PageContext);
+  const navigate = useNavigate();
+  const { isAdding, reqID } = useContext(PageContext) || {};
 
-  let {
+  const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue
-  } = useForm();
-  let onSubmit = async (data) => {
+    setValue,
+  } = useForm<UserFormData>();
+
+
+  const onSubmit: SubmitHandler<UserFormData> = async (data) => {
     try {
-      let res = await axios.post("https://dummyjson.com/users/add", data);
+      await axios.post("https://dummyjson.com/users/add", data);
       toast.success("Added");
       navigate("/dashboard/users");
     } catch (error) {
@@ -27,38 +49,49 @@ export default function AddUser() {
     }
   };
 
-  let [userdata, setUserData] = useState(null);
+  const [userdata, setUserData] = useState<UserData | null>(null);
 
-  let getUserData = async() => {
+
+  const getUserData = async () => {
     try {
-      let res = await axios.get(`https://dummyjson.com/users/${reqID}`);
+      const res = await axios.get<UserData>(`https://dummyjson.com/users/${reqID}`);
       console.log(res?.data);
       setUserData(res?.data);
-      
-
     } catch (error) {
       console.log(error);
     }
   };
 
+
+  const formatDateString = (dateString: string): string => {
+    const [year, month, day] = dateString.split('-').map(Number);
+
+    const pad = (num: number) => (num < 10 ? `0${num}` : num);
+
+    return `${year}-${pad(month)}-${pad(day)}`;
+  };
+
   useEffect(() => {
-    getUserData();
+    if (reqID) {
+      getUserData();
+    }
   }, [reqID]);
 
   useEffect(() => {
     if (userdata) {
-      setValue("firstName", userdata?.firstName);
-      setValue("lastName", userdata?.lastName);
-      setValue("email", userdata?.email);
-      setValue("age", userdata?.age);
-      setValue("phone", userdata?.phone);
-      
+      setValue("firstName", userdata.firstName);
+      setValue("lastName", userdata.lastName);
+      setValue("email", userdata.email);
+      setValue("age", userdata.age);
+      setValue("phone", userdata.phone);
+      setValue("birthDate", formatDateString(userdata.birthDate));
     }
-  }, [userdata]);
+  }, [userdata, setValue]);
 
-  let onUpdate = async (data) => {
+
+  const onUpdate = async (data: UserFormData) => {
     try {
-      let res = await axios.put(`https://dummyjson.com/users/${reqID}`, data);
+      const res = await axios.put(`https://dummyjson.com/users/${reqID}`, data);
       console.log("Response data", res?.data);
       toast.success("Updated");
     } catch (error) {
