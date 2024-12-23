@@ -16,7 +16,7 @@ export default function NavBar() {
             <Navbar.Text>
               Signed in as:{" "}
               <a>
-                {userData.firstName} {userData.lastName}
+                {userData?.firstName} {userData?.lastName}
               </a>
             </Navbar.Text>
           </Navbar.Collapse>

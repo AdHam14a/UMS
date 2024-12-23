@@ -14,6 +14,7 @@ export default function AddUser() {
     register,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm();
   let onSubmit = async (data) => {
     try {
@@ -28,27 +29,41 @@ export default function AddUser() {
 
   let [userdata, setUserData] = useState(null);
 
-  let getUserData = () => {
-    let data = localStorage.getItem("userToken");
-    if (data) {
-      let decoded = jwtDecode(data);
-      console.log(decoded);
-      setUserData(decoded);
+  let getUserData = async() => {
+    try {
+      let res = await axios.get(`https://dummyjson.com/users/${reqID}`);
+      console.log(res?.data);
+      setUserData(res?.data);
+      
+
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [reqID]);
+
+  useEffect(() => {
+    if (userdata) {
+      setValue("firstName", userdata?.firstName);
+      setValue("lastName", userdata?.lastName);
+      setValue("email", userdata?.email);
+      setValue("age", userdata?.age);
+      setValue("phone", userdata?.phone);
+      
+    }
+  }, [userdata]);
 
   let onUpdate = async (data) => {
     try {
       let res = await axios.put(`https://dummyjson.com/users/${reqID}`, data);
-      console.log("ID", reqID);
-      console.log("Main response", res);
-      console.log("Response data", res.data);
+      console.log("Response data", res?.data);
+      toast.success("Updated");
     } catch (error) {
       console.log(error);
+      toast.error("Failed");
     }
   };
 
@@ -157,7 +172,7 @@ export default function AddUser() {
                   <div className="form-group">
                     <label htmlFor="exampleInputPhone">Phone number</label>
                     <input
-                      type="number"
+                      type="tel"
                       className="form-control"
                       id="exampleInputPhone"
                       placeholder="Enter phone"
@@ -215,7 +230,7 @@ export default function AddUser() {
                       type="text"
                       className="form-control"
                       id="exampleInputfirstname"
-                      value={userdata.firstName}
+                      
                       {...register("firstName", {
                         required: "first name is required",
                       })}
@@ -296,7 +311,7 @@ export default function AddUser() {
                   <div className="form-group">
                     <label htmlFor="exampleInputPhone">Phone number</label>
                     <input
-                      type="number"
+                      type="tel"
                       className="form-control"
                       id="exampleInputPhone"
                       {...register("phone", { required: "phone is required" })}
