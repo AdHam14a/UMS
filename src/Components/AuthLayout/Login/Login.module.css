@@ -1,0 +1,58 @@
+.cont{
+    background: linear-gradient(62deg, rgba(255,176,0,1) 46%, rgba(241,252,69,1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formStyle{
+    background-color: white;
+    width: 420px;
+    height: 480px;
+    border-radius: 18px;
+    box-shadow: 0px 4px 11px 9px gold; 
+}
+
+h4{
+    padding: 30px;
+    margin-left: 15px;
+    position: relative;
+}
+
+h4::before{
+    content: "";
+    position: absolute;
+    top: 31px;
+    left: 13px;
+    width: 7px;
+    height: 30px;
+    background-color: gold;
+}
+
+h5{
+    display: flex;
+    justify-content: center;
+}
+
+p{
+    display: flex;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.groupStyle{
+    padding: 15px;
+}
+
+.button{
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.formCells:focus{
+    outline: 3px solid gold;
+}
