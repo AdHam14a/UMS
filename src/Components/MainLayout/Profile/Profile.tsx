@@ -35,7 +35,7 @@ export default function Profile() {
 
   const getUserData = async () => {
     try {
-      const res = await axios.get<UserData>(`https://dummyjson.com/users/${userData?.id}`);
+      const res = await axios.get<UserData>(`https://dummyjson.com/user/${userData?.id}`);
       console.log(res?.data);
       
     } catch (error) {
