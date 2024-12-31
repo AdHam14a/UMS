@@ -13,13 +13,13 @@
     box-shadow: 0px 4px 11px 9px gold; 
 }
 
-h4{
+.mainHeading{
     padding: 30px;
     margin-left: 15px;
     position: relative;
 }
 
-h4::before{
+.mainHeading::before{
     content: "";
     position: absolute;
     top: 31px;

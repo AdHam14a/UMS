@@ -1,0 +1,15 @@
+.mainH3{
+    letter-spacing: 3px;
+    margin-top: 15px;
+}
+
+.mainH4{
+    border: 2px solid gold;
+    border-radius: 40px;
+    padding: 25px;
+}
+
+.paragraphs{
+    font-size: 17px;
+    font-weight: 500;
+}

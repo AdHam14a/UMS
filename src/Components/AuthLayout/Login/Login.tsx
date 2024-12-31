@@ -38,7 +38,7 @@ export default function Login() {
   return (
     <div className={`${styles.cont} vh-100`}>
       <form className={styles.formStyle} onSubmit={handleSubmit(onSubmit)}>
-        <h4>User Management System</h4>
+        <h4 className={styles.mainHeading}>User Management System</h4>
         <h5>SIGN IN</h5>
         <p>Enter your credentials to access your account</p>
 
