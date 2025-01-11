@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useEffect} from "react";
+import { useContext, useEffect, useState} from "react";
 import { useForm } from "react-hook-form";
 import { PageContext } from "../../context/PageContext";
 import styles from "./Profile.module.css";
@@ -33,10 +33,13 @@ export default function Profile() {
   
   const { userData } = useContext(PageContext) || {};
 
+  const [data, getData] = useState(null);
+
   const getUserData = async () => {
     try {
       const res = await axios.get<UserData>(`https://dummyjson.com/user/${userData?.id}`);
       console.log(res?.data);
+      getData(res?.data);
       
     } catch (error) {
       console.log(error);
@@ -51,29 +54,29 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    console.log(userData?.id);
-      if (userData?.id) {
-        getUserData();
-      }
-  }, [userData?.id]);
+    if (userData?.id) {
+      getUserData();
+    }
+  }, [userData]);
   
   useEffect(() => { 
     console.log(userData);
-    if (userData) {
-      console.log(userData?.firstName);
-      console.log(userData?.lastName);
-      console.log(userData?.email);
-      console.log(userData?.phone);
-      console.log(userData?.birthDate);
-      console.log(userData?.age);
-      setValue("firstName", userData?.firstName);
-      setValue("lastName", userData?.lastName);
-      setValue("email", userData?.email);
-      setValue("phone", userData?.phone);
-      // setValue("birthDate", formatDateString(userData?.birthDate));
-      setValue("age", userData?.age);
+    if (data) {
+      console.log(data.firstName);
+      console.log(data.lastName);
+      console.log(data.email);
+      console.log(data.phone);
+      console.log(data.birthDate);
+      console.log(data.age);
+      
+      setValue("firstName", data.firstName);
+      setValue("lastName", data.lastName);
+      setValue("email", data.email);
+      setValue("phone", data.phone);
+      setValue("birthDate", formatDateString(data.birthDate));
+      setValue("age", data.age);
     }
-  }, [userData]); 
+  }, [data]);
 
   return (
     <>
