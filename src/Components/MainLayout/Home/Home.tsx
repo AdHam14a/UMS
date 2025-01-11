@@ -97,10 +97,10 @@ export default function Home() {
       </div>
       <div className="container">
         <div className="row justify-content-between align-items-center mx-3">
-          <div className="col-md-5">
+          <div className="col-md-5 col-12 mb-3">
             <Bar data={barData} options={options} />
           </div>
-          <div className="col-md-5">
+          <div className="col-md-5 col-12 mb-3">
             <Doughnut data={doughnutData} />
           </div>
         </div>

@@ -122,7 +122,7 @@ export default function AddUser() {
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className="row">
-                <div className="col-md-6">
+                <div className=" col-12 col-md-6">
                   <div className="form-group mb-3">
                     <label htmlFor="exampleInputfirstname">First Name</label>
                     <input
@@ -141,7 +141,7 @@ export default function AddUser() {
                     )}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-12 col-md-6">
                   <div className="form-group  mb-3">
                     <label htmlFor="exampleInputLastname">Last Name</label>
                     <input
@@ -160,7 +160,7 @@ export default function AddUser() {
                     )}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-12 col-md-6">
                   <div className="form-group mb-3">
                     <label htmlFor="exampleInputEmail">Email</label>
                     <input
@@ -184,7 +184,7 @@ export default function AddUser() {
                     )}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-12 col-md-6">
                   <div className="form-group mb-3">
                     <label htmlFor="exampleInputAge">Age</label>
                     <input
@@ -209,7 +209,7 @@ export default function AddUser() {
                     )}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-12 col-md-6">
                   <div className="form-group">
                     <label htmlFor="exampleInputPhone">Phone number</label>
                     <input
@@ -226,7 +226,7 @@ export default function AddUser() {
                     )}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-12 col-md-6">
                   <div className="form-group">
                     <label htmlFor="exampleInputBirthdate">Birthdate</label>
                     <input
@@ -264,7 +264,7 @@ export default function AddUser() {
               onSubmit={handleSubmit(onUpdate)}
             >
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-12 col-md-6">
                   <div className="form-group mb-3">
                     <label htmlFor="exampleInputfirstname">First Name</label>
                     <input
@@ -283,7 +283,7 @@ export default function AddUser() {
                     )}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-12 col-md-6">
                   <div className="form-group  mb-3">
                     <label htmlFor="exampleInputLastname">Last Name</label>
                     <input
@@ -301,7 +301,7 @@ export default function AddUser() {
                     )}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-12 col-md-6">
                   <div className="form-group mb-3">
                     <label htmlFor="exampleInputEmail">Email</label>
                     <input
@@ -324,7 +324,7 @@ export default function AddUser() {
                     )}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-12 col-md-6">
                   <div className="form-group mb-3">
                     <label htmlFor="exampleInputAge">Age</label>
                     <input
@@ -348,7 +348,7 @@ export default function AddUser() {
                     )}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-12 col-md-6">
                   <div className="form-group">
                     <label htmlFor="exampleInputPhone">Phone number</label>
                     <input
@@ -364,7 +364,7 @@ export default function AddUser() {
                     )}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-12 col-md-6">
                   <div className="form-group">
                     <label htmlFor="exampleInputBirthdate">Birthdate</label>
                     <input

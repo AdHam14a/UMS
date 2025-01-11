@@ -5,30 +5,46 @@ import { RiLogoutCircleLine, RiProfileFill } from 'react-icons/ri';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { PageContext } from '../../context/PageContext';
-
-interface UserData {
-  image?: string;
-  firstName: string;
-  lastName: string;
-}
 
 export default function SideBar() {
   const [collapsed, setCollapsed] = useState<boolean>(false);
-  const { userData , changeAddPage } = useContext(PageContext);
+  const { userData, changeAddPage } = useContext(PageContext) || {};
   const navigate = useNavigate();
+  
+
   const logout = () => {
     navigate("/login");
   };
+
 
   const toggle = () => {
     setCollapsed((prev) => !prev);
   };
 
-  const addUsersection = () => {
-    changeAddPage(0);
+
+  const checkScreenSize = () => {
+    if (window.innerWidth <= 768) {
+      setCollapsed(true);
+    } else {
+      setCollapsed(false);
+    }
   };
+
+  const addUsersection = () => {
+    changeAddPage?.(0);
+  };
+
+  useEffect(() => {
+    checkScreenSize(); 
+
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
 
   return (
     <div className='sidebarContainer vh-100'>
@@ -54,7 +70,7 @@ export default function SideBar() {
           <MenuItem icon={<PiUsersThreeFill />} component={<Link to="users" />}>
             Users
           </MenuItem>
-          <MenuItem onClick={()=>addUsersection()} icon={<IoPersonAdd />} component={<Link to="add-user" />}>
+          <MenuItem onClick={() => addUsersection()} icon={<IoPersonAdd />} component={<Link to="add-user" />}>
             Add User
           </MenuItem>
           <MenuItem icon={<RiProfileFill />} component={<Link to="profile" />}>

@@ -1,6 +1,6 @@
 
 export default function NotFound() {
   return (
-    <div>NotFound</div>
+    <div className="d-flex justify-content-center align-items-center text-warning">Not Found</div>
   )
 }

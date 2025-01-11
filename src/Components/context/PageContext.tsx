@@ -1,11 +1,16 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, ReactNode, useEffect, useState } from "react";
 
+
 interface User {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  num: number;
+  age: number;
+  phone: number;
+  birthDate: string;
+  image?: string; 
 }
 
 interface PageContextProviderProps {
@@ -39,14 +44,14 @@ export default function PageContextProvider({ children }: PageContextProviderPro
   const saveUserData = () => {
     const encoded = localStorage.getItem("userToken");
     if (encoded) {
-      const decoded = jwtDecode<User>(encoded); 
-      setUserData(decoded);
+      const decoded = jwtDecode<User>(encoded); // Decode user token
+      setUserData(decoded); // Set user data
     }
   };
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
-      saveUserData();
+      saveUserData(); // If a token exists, save user data
     }
   }, []);
 

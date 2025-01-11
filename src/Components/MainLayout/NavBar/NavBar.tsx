@@ -4,7 +4,8 @@ import Navbar from "react-bootstrap/Navbar";
 import { PageContext } from "../../context/PageContext";
 
 export default function NavBar() {
-  const { userData }:any = useContext(PageContext);
+  
+  const { userData } = useContext(PageContext) || {};
 
   return (
     <>
@@ -16,7 +17,7 @@ export default function NavBar() {
             <Navbar.Text>
               Signed in as:{" "}
               <a>
-                {userData?.firstName} {userData?.lastName}
+                {userData ? `${userData?.firstName} ${userData?.lastName}` : "Guest"}
               </a>
             </Navbar.Text>
           </Navbar.Collapse>

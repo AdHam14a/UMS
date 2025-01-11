@@ -9,56 +9,83 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Preloader from "../../Preloader/Preloader";
 import { PageContext } from "../../context/PageContext";
+import styles from "./Users.module.css";
+
+
+interface UserData {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  age: number;
+  phone: number;
+  birthDate: string;
+  image?: string;
+}
 
 export default function Users() {
-  let [users, setUsers] = useState([]);
-  let [loading, setLoading] = useState(false);
-  let getUsers = async () => {
+  const [users, setUsers] = useState<UserData[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [userID, setUserID] = useState<string | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null); 
+  const [show, setShow] = useState<boolean>(false);
+
+  const { changeAddPage, setID } = useContext(PageContext) || {}; 
+
+  const navigate = useNavigate();
+
+
+  const getUsers = async () => {
     try {
       setLoading(true);
-      let res = await axios.get("https://dummyjson.com/users");
-      setUsers(res?.data?.users);
+      const res = await axios.get("https://dummyjson.com/users");
+      setUsers(res?.data?.users || []); 
       setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
-  let { changeAddPage , user_ID } = useContext(PageContext);
 
-  let navigate = useNavigate();
-  let moveToAddUser = (num) => {
-    changeAddPage(num);
-    console.log("from add button")
-    navigate("/dashboard/add-user");
+  const moveToAddUser = (num: number) => {
+    if (changeAddPage) {
+      changeAddPage(num);
+      navigate("/dashboard/add-user");
+    }
   };
 
-  let { setID } = useContext(PageContext);
 
-  let movetoUpdateUser = (user,num) => {
-    changeAddPage(num);
-    setID(user.id);
-    console.log("from update button")
-    navigate("/dashboard/add-user");
+  const movetoUpdateUser = (user: UserData, num: number) => {
+    if (changeAddPage && setID) {
+      changeAddPage(num);
+      setID(Number(user.id)); 
+      navigate("/dashboard/add-user");
+    }
   };
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const [userID, setUserID] = useState(null);
-  const [userData, setUserData] = useState(null);
-  const handleShow = (user) => {
+
+
+  const handleShow = (user: UserData) => {
     setShow(true);
     setUserData(user);
     setUserID(user.id);
   };
-  let deleteUsers = async () => {
-    try {
-      let res = await axios.delete(`https://dummyjson.com/users/${userID}`);
-      console.log(res);
-      handleClose();
-      toast.success("Deleted");
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed");
+
+
+  const handleClose = () => setShow(false);
+
+
+  const deleteUsers = async () => {
+    if (userID) {
+      try {
+        const res = await axios.delete(`https://dummyjson.com/users/${userID}`);
+        console.log(res);
+        handleClose();
+        toast.success("Deleted");
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed");
+      }
     }
   };
 
@@ -73,30 +100,30 @@ export default function Users() {
         <>
           <div className="d-flex justify-content-between mx-3">
             <h3>Users list</h3>
-            <button className="btn btn-warning" onClick={()=>moveToAddUser(0)}>
+            <button className="btn btn-warning" onClick={() => moveToAddUser(0)}>
               Add User
             </button>
           </div>
           <hr />
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Birth Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <>
+          <div className="d-none d-md-block">
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Birth Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user) => (
                   <tr key={user.id}>
                     <td>{user.id}</td>
-                    <td className="d-flex justify-content-center align-align-items-center">
-                      <img src={user.image} alt="image" className="w-25" />
+                    <td className="d-flex justify-content-center align-items-center">
+                      <img src={user.image} alt="image" className="w-25"/>
                     </td>
                     <td>
                       {user.firstName} {user.lastName}
@@ -105,10 +132,10 @@ export default function Users() {
                     <td>{user.phone}</td>
                     <td>{user.birthDate}</td>
                     <td>
-                      <FaRegEdit 
+                      <FaRegEdit
                         size={25}
                         className="text-warning ms-2 me-3 cursor-pointer"
-                        onClick={() => movetoUpdateUser(user,1)}
+                        onClick={() => movetoUpdateUser(user, 1)}
                       />
                       <MdOutlineDelete
                         onClick={() => handleShow(user)}
@@ -117,17 +144,48 @@ export default function Users() {
                       />
                     </td>
                   </tr>
-                </>
-              ))}
-            </tbody>
-          </Table>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+
+          
+          <div className="d-block d-md-none">
+            {users.map((user) => (
+              <div key={user.id} className="card mb-3">
+                <div className="card-body">
+                  <div className="d-flex justify-content-between">
+                    <img src={user.image} alt="image" className={`w-25 ${styles.imageFit}`} />
+                    <div>
+                      <h5>{user.firstName} {user.lastName}</h5>
+                      <p>{user.email}</p>
+                      <p>{user.phone}</p>
+                      <p>{user.birthDate}</p>
+                      <div className="d-flex justify-content-between">
+                        <FaRegEdit
+                          size={25}
+                          className="text-warning ms-2 me-3 cursor-pointer"
+                          onClick={() => movetoUpdateUser(user, 1)}
+                        />
+                        <MdOutlineDelete
+                          onClick={() => handleShow(user)}
+                          size={25}
+                          className="text-warning cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Are you sure?</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              You will delete {userData?.firstName} {userData?.lastName}, Are
-              you sure?
+              You will delete {userData?.firstName} {userData?.lastName}, Are you sure?
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>

@@ -33,7 +33,7 @@ export default function Profile() {
   
   const { userData } = useContext(PageContext) || {};
 
-  const [data, getData] = useState(null);
+  const [data, getData] = useState<UserData | null>(null);
 
   const getUserData = async () => {
     try {

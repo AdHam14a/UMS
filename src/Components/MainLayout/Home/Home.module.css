@@ -1,15 +1,56 @@
-.mainH3{
+.mainH3 {
     letter-spacing: 3px;
     margin-top: 15px;
-}
-
-.mainH4{
+    font-size: 2.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .mainH3 {
+      font-size: 2rem; 
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .mainH3 {
+      font-size: 1.5rem; 
+    }
+  }
+  
+  .mainH4 {
     border: 2px solid gold;
     border-radius: 40px;
     padding: 25px;
-}
-
-.paragraphs{
+    font-size: 1.75rem; 
+  }
+  
+  @media (max-width: 768px) {
+    .mainH4 {
+      font-size: 1.5rem; 
+      padding: 20px; 
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .mainH4 {
+      font-size: 1.25rem; 
+      padding: 15px; 
+    }
+  }
+  
+  .paragraphs {
     font-size: 17px;
     font-weight: 500;
-}
+  }
+  
+  @media (max-width: 768px) {
+    .paragraphs {
+      font-size: 15px; 
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .paragraphs {
+      font-size: 14px; 
+    }
+  }
+  
